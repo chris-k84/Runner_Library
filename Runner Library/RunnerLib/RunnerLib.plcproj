@@ -16,6 +16,25 @@
     <Implicit_KindOfTask>{354e0c19-34d7-43f1-9ca9-a5bda3ee5936}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{57ec3f39-6d07-4787-b8fc-f221e7b8f893}</Implicit_Jitter_Distribution>
     <LibraryReferences>{76759dd2-ac26-4422-9cb0-b32e65faf1a5}</LibraryReferences>
+    <Released>false</Released>
+    <AllowChecksForLibrary>false</AllowChecksForLibrary>
+    <POUsForPropertyAccessIncluded>false</POUsForPropertyAccessIncluded>
+    <GlobalVersionStructureIncluded>false</GlobalVersionStructureIncluded>
+    <VirtualLibrary>true</VirtualLibrary>
+    <Company>Beckhoff UK</Company>
+    <Title>Runner Library</Title>
+    <ProjectVersion>1.0.0.0</ProjectVersion>
+    <LibraryCategories>
+      <LibraryCategory xmlns="">
+        <Id>{a4a00b8a-9270-48aa-b020-371bd9c3e701}</Id>
+        <Version>1.0.0.0</Version>
+        <DefaultName>Beckhoff UK</DefaultName>
+      </LibraryCategory>
+    </LibraryCategories>
+    <SelectedLibraryCategories>
+      <Id xmlns="">{a4a00b8a-9270-48aa-b020-371bd9c3e701}</Id>
+    </SelectedLibraryCategories>
+    <Author>Chris Knight</Author>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Cyclic Runner" />
@@ -28,11 +47,17 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <PlaceholderReference Include="Base Library">
+      <DefaultResolution>Base Library, * (BAUK)</DefaultResolution>
+      <Namespace>Base_Library</Namespace>
+    </PlaceholderReference>
+  </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{29BD8D0C-3586-4548-BB48-497B9A01693F}</v>
@@ -78,14 +103,14 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Boolean">System.Boolean</Type>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>
