@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="RunnerTestSuite" Id="{aa66a70b-e6a1-4ee9-93b5-91581bfef23c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK RunnerTestSuite
+VAR
+	TestObjRunner : ObjectRunner;
+	TestMockObj : MockObj;
+	ReRun : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[RejectInvalidInterface_Test();
+IF ReRun THEN
+	TestSuite.ReRunTests();
+	ReRun := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="IncrementObjectCountWhenAdded_Test" Id="{c3a80c9e-fe7e-4a12-b8cb-4c7062482f36}">
+      <Declaration><![CDATA[METHOD IncrementObjectCountWhenAdded_Test : BOOL
+VAR_INST
+	Expected : INT;
+	Actual	 : INT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := 1;
+	TestObjRunner.AddComponent(CyclicModule := TestMockObj);
+	Actual := TestObjRunner.GetCyclicModuleCount();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RejectInvalidInterface_Test" Id="{1a121526-1763-4409-b8b9-2573d17baec6}">
+      <Declaration><![CDATA[METHOD RejectInvalidInterface_Test : BOOL
+VAR_INST
+	Expected : HRESULT;
+	Actual	 : HRESULT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := S_False;
+	Actual := TestObjRunner.AddComponent(CyclicModule := 16#0);
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

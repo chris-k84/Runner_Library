@@ -30,14 +30,14 @@ VAR
 	InitInterface : I_Initialise;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF ModuleCount < (MaxRegisteredModules + 1) THEN
+        <ST><![CDATA[IF CyclicModule <> 0 AND_THEN ModuleCount < (MaxRegisteredModules + 1) THEN
 	CyclicModules[ModuleCount] := CyclicModule;
 	IF __QUERYINTERFACE(CyclicModule,InitInterface) THEN
 		InitialiseModules[InitModuleCount] := InitInterface;
 		InitModuleCount := InitModuleCount + 1;
 	END_IF
 	ModuleCount := ModuleCount + 1;
-	AddComponent := 2;
+	AddComponent := S_OK;
 ELSE
 	AddComponent := S_FALSE;
 END_IF
@@ -73,13 +73,22 @@ END_VAR]]></Declaration>
 END_FOR]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetModuleCount" Id="{ce16b2d3-0e8a-4df6-aa9c-1c1b403838ba}">
-      <Declaration><![CDATA[METHOD GetModuleCount : int
+    <Method Name="GetCyclicModuleCount" Id="{ce16b2d3-0e8a-4df6-aa9c-1c1b403838ba}">
+      <Declaration><![CDATA[METHOD GetCyclicModuleCount : INT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetModuleCount := ModuleCount;]]></ST>
+        <ST><![CDATA[GetCyclicModuleCount := ModuleCount;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetInitModuleCount" Id="{60a82703-af5b-4211-bf3d-ed52aa5037b2}">
+      <Declaration><![CDATA[METHOD GetInitModuleCount : INT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetInitModuleCount := InitModuleCount;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{498dbf2f-31fd-468f-af2a-ef254d08806c}">
@@ -104,7 +113,7 @@ END_IF]]></ST>
     </Method>
     <Method Name="RemoveModule" Id="{dfa8fa7b-42f3-4591-8ff7-fdf50b44b36a}">
       <Declaration><![CDATA[METHOD RemoveModule : HRESULT
-VAR_INPUT
+vAR_INPUT
 	CyclicModule : ICyclic;
 END_VAR
 ]]></Declaration>

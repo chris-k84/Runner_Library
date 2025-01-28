@@ -24,18 +24,20 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\MockObj.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\RunnerTestSuite.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderReference Include="Tc2_Standard">
-      <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
-      <Namespace>Tc2_Standard</Namespace>
-    </PlaceholderReference>
-    <PlaceholderReference Include="Tc2_System">
-      <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
-      <Namespace>Tc2_System</Namespace>
+    <PlaceholderReference Include="Base Library">
+      <DefaultResolution>Base Library, * (Beckhoff UK)</DefaultResolution>
+      <Namespace>Base_Library</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3PlcTestSuite">
       <DefaultResolution>Tc3PlcTestSuite, * (Simmel)</DefaultResolution>
@@ -50,6 +52,11 @@
       <DefaultResolution>[Runner Library], * (Beckhoff UK)</DefaultResolution>
       <Namespace>Runner_Library</Namespace>
     </PlaceholderReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Test_Proj.tmc">
+      <SubType>Content</SubType>
+    </None>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
