@@ -14,6 +14,7 @@ VAR
 	i: INT;
 	InitialisationCount : INT := 0;
 	Registered: BOOL;
+	Initialised : BOOL := FALSE;
 END_VAR
 VAR CONSTANT
 	MaxRegisteredModules : INT := 99;
@@ -57,6 +58,15 @@ END_IF
 
 
 	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="AreAllModuleInitialised" Id="{4d383a02-46c6-4353-8362-547fa2f80ae1}">
+      <Declaration><![CDATA[METHOD AreAllModuleInitialised : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Method Name="Clear" Id="{801399c7-4ed5-4baa-bb84-25ca1ab9b024}">
@@ -111,18 +121,26 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF InitialisationCount < InitModuleCount THEN
-	IF InitialiseModules[InitialisationCount] <> 0 THEN
-		IF InitialiseModules[InitialisationCount].Initialise() = 2 THEN
+        <ST><![CDATA[IF InitialisationCount = 0 THEN
+	Initialised := TRUE;
+	Initialise := S_FALSE;
+ELSE
+	IF InitialisationCount < InitModuleCount THEN
+		IF InitialiseModules[InitialisationCount] <> 0 THEN
+			IF InitialiseModules[InitialisationCount].Initialise() = 2 THEN
+				InitialisationCount := InitialisationCount + 1;
+			END_IF
+		ELSE
 			InitialisationCount := InitialisationCount + 1;
 		END_IF
 	ELSE
-		InitialisationCount := InitialisationCount + 1;
+		Initialise := S_OK;
+		InitialisationCount := 0;
+		Initialised := TRUE;
 	END_IF
-ELSE
-	Initialise := 2;
-	InitialisationCount := 0;
-END_IF]]></ST>
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="RemoveModule" Id="{dfa8fa7b-42f3-4591-8ff7-fdf50b44b36a}">
