@@ -13,6 +13,7 @@ VAR
 	InitialiseModules : ARRAY[0..MaxRegisteredModules] OF I_Initialise;
 	i: INT;
 	InitialisationCount : INT := 0;
+	Registered: BOOL;
 END_VAR
 VAR CONSTANT
 	MaxRegisteredModules : INT := 99;
@@ -31,16 +32,29 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF CyclicModule <> 0 AND_THEN ModuleCount < (MaxRegisteredModules + 1) THEN
-	CyclicModules[ModuleCount] := CyclicModule;
-	IF __QUERYINTERFACE(CyclicModule,InitInterface) THEN
-		InitialiseModules[InitModuleCount] := InitInterface;
-		InitModuleCount := InitModuleCount + 1;
-	END_IF
-	ModuleCount := ModuleCount + 1;
-	AddComponent := S_OK;
+	Registered := FALSE;
+	FOR i := 0 TO MaxRegisteredModules DO
+		IF CyclicModules[i] = CyclicModule THEN
+			Registered := TRUE;
+		END_IF
+	END_FOR
+	IF NOT Registered THEN
+		CyclicModules[ModuleCount] := CyclicModule;
+		IF __QUERYINTERFACE(CyclicModule,InitInterface) THEN
+			InitialiseModules[InitModuleCount] := InitInterface;
+			InitModuleCount := InitModuleCount + 1;
+		END_IF
+		ModuleCount := ModuleCount + 1;
+		AddComponent := S_OK;
+	ELSE
+		AddComponent := S_FALSE;
+	END_IF	
 ELSE
 	AddComponent := S_FALSE;
 END_IF
+
+
+
 
 	]]></ST>
       </Implementation>
@@ -82,7 +96,7 @@ END_VAR
         <ST><![CDATA[GetCyclicModuleCount := ModuleCount;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetInitModuleCount" Id="{60a82703-af5b-4211-bf3d-ed52aa5037b2}">
+    <Method Name="GetInitModuleCount" Id="{a9fb930d-907c-4894-834e-3a7f560764dd}">
       <Declaration><![CDATA[METHOD GetInitModuleCount : INT
 VAR_INPUT
 END_VAR

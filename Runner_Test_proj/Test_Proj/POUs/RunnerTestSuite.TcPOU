@@ -10,11 +10,31 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[RejectInvalidInterface_Test();
+IncrementObjectCountWhenAdded_Test();
+IncrementInitObjCountWhenAdded_Test();
+RejectAddingSameModule_Test();
 IF ReRun THEN
 	TestSuite.ReRunTests();
 	ReRun := FALSE;
 END_IF]]></ST>
     </Implementation>
+    <Method Name="IncrementInitObjCountWhenAdded_Test" Id="{7128a3c1-eb86-432a-a99b-ea139722f283}">
+      <Declaration><![CDATA[METHOD IncrementInitObjCountWhenAdded_Test : BOOL
+VAR_INST
+	Expected : INT;
+	Actual	 : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := 1;
+	TestObjRunner.AddComponent(CyclicModule := TestMockObj);
+	Actual := TestObjRunner.GetInitModuleCount();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestObjRunner.Clear();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="IncrementObjectCountWhenAdded_Test" Id="{c3a80c9e-fe7e-4a12-b8cb-4c7062482f36}">
       <Declaration><![CDATA[METHOD IncrementObjectCountWhenAdded_Test : BOOL
 VAR_INST
@@ -27,6 +47,24 @@ END_VAR]]></Declaration>
 	TestObjRunner.AddComponent(CyclicModule := TestMockObj);
 	Actual := TestObjRunner.GetCyclicModuleCount();
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestObjRunner.Clear();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RejectAddingSameModule_Test" Id="{c962196c-5e81-4f84-9de9-a591b396130d}">
+      <Declaration><![CDATA[METHOD RejectAddingSameModule_Test : BOOL
+VAR_INST
+	Expected : HRESULT;
+	Actual	 : HRESULT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := S_False;
+	TestObjRunner.AddComponent(CyclicModule := TestMockObj);
+	Actual := TestObjRunner.AddComponent(CyclicModule := TestMockObj);
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestObjRunner.Clear();
 END_IF]]></ST>
       </Implementation>
     </Method>
