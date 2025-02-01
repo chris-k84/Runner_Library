@@ -18,7 +18,7 @@ This started out as an XTS library, then became something else, a huge crawling 
 
 ## The Goal
 
-
+The goal of this repo is to build on the base repo, using the cyclic modules to create an object specifically to run a modular system. This module will call all the cyclic logic of all registered objects and handle initialisation.
 
 ## Background
 
