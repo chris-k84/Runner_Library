@@ -1,4 +1,4 @@
-# TcExplore
+# Runner Library
 
 ## Contents
 
@@ -22,7 +22,10 @@ The goal of this repo is to build on the base repo, using the cyclic modules to 
 
 ## Background
 
-
+The background to this is long and complicated but basically revolves around a series of conversations, though experiments and trial and error projects. 
+Essentially there are lots of ways of setting up a PLC project, the idea behind a runner is to provide a flat structure for your program. Often you have a heiracicl structure with many levels, when this happens knowing when something executes becomes diffcult.
+The runner provides a flat execution, all cyclic operations are called one after another, not based on the object composition, but simply on an arbitrary order.
+This order is typically the order the modules are added to the runner.   
 
 ## Description
 
