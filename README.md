@@ -25,13 +25,27 @@ The goal of this repo is to build on the base repo, using the cyclic modules to 
 The background to this is long and complicated but basically revolves around a series of conversations, though experiments and trial and error projects. 
 Essentially there are lots of ways of setting up a PLC project, the idea behind a runner is to provide a flat structure for your program. Often you have a heiracicl structure with many levels, when this happens knowing when something executes becomes diffcult.
 The runner provides a flat execution, all cyclic operations are called one after another, not based on the object composition, but simply on an arbitrary order.
-This order is typically the order the modules are added to the runner.   
+This order is typically the order the modules are added to the runner.
+
+This structural design is based on the workflow engine, it requires an object based approach to programming.
+Each object should at a minimum the ICyclic interface, this is found in the base library.
+
+The runner calls the cyclic method of all registered modules.
 
 ## Description
 
+The Runner class is meant to form the background of the PLC program, at a minimum you will require the addComponent and cycle methods. Your module should be registered with the runner once, it will reject registering the same module multiple times. This fits with a machine initialisation operation. Next call the cycle method, all registered modules will be called.
+
+The runner also supports an initialisation, implementing the I_Initialse interface means when the object is registered it is checked for this interface. If its found then you can split the runner calls. Using the initialise to call any initialse method of all registered objects, check all repsond as initialised, before calling the cycle method for the first time.
+
+You are able to remove a module using the removemodule method, this will remove the module refernece and so block it being called, you can also clear to remove all registered modules.
+
+Looking into the testing library will show how the runner can be used.
 
 ## Repository Design
 
+This repo is split into 2 projects, the library containing the runner and a unit tesitng library.
+Utilising reference libraries you can run them, you can run in UmRT.
 
 
 ## Tests
