@@ -29,10 +29,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Expected := 1;
-	TestObjRunner.AddComponent(CyclicModule := TestMockObj);
+	TestObjRunner.RegisterModule(CyclicModule := TestMockObj);
 	Actual := TestObjRunner.GetInitModuleCount();
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestObjRunner.Clear();
+	TestObjRunner.DeregisterAllModules();
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -45,10 +45,10 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Expected := 1;
-	TestObjRunner.AddComponent(CyclicModule := TestMockObj);
+	TestObjRunner.RegisterModule(CyclicModule := TestMockObj);
 	Actual := TestObjRunner.GetCyclicModuleCount();
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestObjRunner.Clear();
+	TestObjRunner.DeregisterAllModules();
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -62,10 +62,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_False;
-	TestObjRunner.AddComponent(CyclicModule := TestMockObj);
-	Actual := TestObjRunner.AddComponent(CyclicModule := TestMockObj);
+	TestObjRunner.RegisterModule(CyclicModule := TestMockObj);
+	Actual := TestObjRunner.RegisterModule(CyclicModule := TestMockObj);
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestObjRunner.Clear();
+	TestObjRunner.DeregisterAllModules();
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -81,7 +81,7 @@ END_VAR
 	Expected := S_False;
 	Actual := TestObjRunner.Initialise();
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
-	TestObjRunner.Clear();
+	TestObjRunner.DeregisterAllModules();
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -95,7 +95,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_False;
-	Actual := TestObjRunner.AddComponent(CyclicModule := 16#0);
+	Actual := TestObjRunner.RegisterModule(CyclicModule := 16#0);
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
