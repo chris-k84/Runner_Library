@@ -13,16 +13,14 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="Cycle" Id="{2fdaa782-1cce-42d3-b0fd-0a553501ea73}">
-      <Declaration><![CDATA[{warning 'Add method implementation '}
-METHOD Cycle : Base_Library.HRESULT
+      <Declaration><![CDATA[METHOD Cycle : HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{b6fb438d-078a-4d9d-ba13-f31f733124cc}">
-      <Declaration><![CDATA[{warning 'Add method implementation '}
-METHOD Initialise : Base_Library.HRESULT
+      <Declaration><![CDATA[METHOD Initialise : HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>

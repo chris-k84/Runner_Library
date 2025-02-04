@@ -4,7 +4,8 @@
     <Declaration><![CDATA[FUNCTION_BLOCK RunnerTestSuite
 VAR
 	TestObjRunner : ObjectRunner;
-	TestMockObj : MockObj;
+	TestMockObj1 : MockObj;
+	TestMockObj2 : MockObj;
 	ReRun : BOOL;
 END_VAR
 ]]></Declaration>
@@ -14,11 +15,29 @@ IncrementObjectCountWhenAdded_Test();
 IncrementInitObjCountWhenAdded_Test();
 RejectAddingSameModule_Test();
 RejectInitCallWithNoModules_Test();
+ConfirmInitModulesComplete_Test();
 IF ReRun THEN
 	TestSuite.ReRunTests();
 	ReRun := FALSE;
 END_IF]]></ST>
     </Implementation>
+    <Method Name="ConfirmInitModulesComplete_Test" Id="{4d25e156-418e-40fe-a27a-cb6a017bf8b6}">
+      <Declaration><![CDATA[METHOD ConfirmInitModulesComplete_Test : BOOL
+VAR_INST
+	Expected : BOOL;
+	Actual	 : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := TRUE;
+	TestObjRunner.RegisterModule(CyclicModule := TestMockObj1);
+	TestObjRunner.Initialise();
+	Actual := TestObjRunner.AreAllModuleInitialised();
+	TestObjRunner.DeregisterAllModules();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="IncrementInitObjCountWhenAdded_Test" Id="{7128a3c1-eb86-432a-a99b-ea139722f283}">
       <Declaration><![CDATA[METHOD IncrementInitObjCountWhenAdded_Test : BOOL
 VAR_INST
@@ -29,10 +48,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Expected := 1;
-	TestObjRunner.RegisterModule(CyclicModule := TestMockObj);
+	TestObjRunner.RegisterModule(CyclicModule := TestMockObj1);
 	Actual := TestObjRunner.GetInitModuleCount();
-	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestObjRunner.DeregisterAllModules();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -45,10 +64,10 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Expected := 1;
-	TestObjRunner.RegisterModule(CyclicModule := TestMockObj);
+	TestObjRunner.RegisterModule(CyclicModule := TestMockObj1);
 	Actual := TestObjRunner.GetCyclicModuleCount();
-	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestObjRunner.DeregisterAllModules();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -62,8 +81,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
 	Expected := S_False;
-	TestObjRunner.RegisterModule(CyclicModule := TestMockObj);
-	Actual := TestObjRunner.RegisterModule(CyclicModule := TestMockObj);
+	TestObjRunner.RegisterModule(CyclicModule := TestMockObj1);
+	Actual := TestObjRunner.RegisterModule(CyclicModule := TestMockObj1);
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestObjRunner.DeregisterAllModules();
 END_IF]]></ST>

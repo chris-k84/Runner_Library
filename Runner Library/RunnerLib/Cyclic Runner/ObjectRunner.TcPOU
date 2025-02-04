@@ -50,13 +50,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 0 TO ModuleCount DO
+        <ST><![CDATA[FOR i := 0 TO MaxRegisteredModules DO
 	CyclicModules[i] := 0;
 	InitialiseModules[i] := 0;
 END_FOR
 ModuleCount := 0;
 InitModuleCount := 0;
-DeregisterAllModules := 2;
+DeregisterAllModules := S_OK;
 ]]></ST>
       </Implementation>
     </Method>
@@ -126,9 +126,7 @@ ELSE
 		InitialisationCount := 0;
 		Initialised := TRUE;
 	END_IF
-END_IF
-
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="RegisterModule" Id="{5f816535-6603-4c30-b42c-afe250745821}">
@@ -142,13 +140,13 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF CyclicModule <> 0 AND_THEN ModuleCount < (MaxRegisteredModules + 1) THEN
 	Registered := FALSE;
-	FOR i := 0 TO ModuleCount DO
+	FOR i := 0 TO MaxRegisteredModules DO
 		IF CyclicModules[i] = CyclicModule THEN
 			Registered := TRUE;
 		END_IF
 	END_FOR
 	IF NOT Registered THEN	
-		FOR i := 0 TO ModuleCount DO
+		FOR i := 0 TO MaxRegisteredModules DO
 			IF CyclicModules[i] = 0 THEN
 				CyclicModules[i] := CyclicModule;
 				IF __QUERYINTERFACE(CyclicModule,InitInterface) THEN
