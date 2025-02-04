@@ -16,6 +16,7 @@ IncrementInitObjCountWhenAdded_Test();
 RejectAddingSameModule_Test();
 RejectInitCallWithNoModules_Test();
 ConfirmInitModulesComplete_Test();
+ConfirmRunnerCanDeregAllModules_Test();
 IF ReRun THEN
 	TestSuite.ReRunTests();
 	ReRun := FALSE;
@@ -34,6 +35,25 @@ END_VAR]]></Declaration>
 	TestObjRunner.Initialise();
 	Actual := TestObjRunner.AreAllModuleInitialised();
 	TestObjRunner.DeregisterAllModules();
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ConfirmRunnerCanDeregAllModules_Test" Id="{c1035752-4906-4a62-b5bc-a5f85ff86ef1}">
+      <Declaration><![CDATA[METHOD ConfirmRunnerCanDeregAllModules_Test : BOOL
+VAR_INST
+	Expected : INT;
+	Actual	 : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	Expected := 0;
+	TestObjRunner.RegisterModule(CyclicModule := TestMockObj1);
+	TestObjRunner.RegisterModule(CyclicModule := TestMockObj2);
+	Actual := TestObjRunner.GetCyclicModuleCount();
+	TestObjRunner.DeregisterAllModules();
+	Actual := TestObjRunner.GetCyclicModuleCount();
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
       </Implementation>

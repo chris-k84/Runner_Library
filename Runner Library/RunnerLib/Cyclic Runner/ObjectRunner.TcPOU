@@ -29,7 +29,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[AreAllModuleInitialised := Initialised;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Cycle" Id="{07b170dc-1426-48b0-b328-82870c7027f5}">
@@ -153,6 +153,7 @@ END_VAR]]></Declaration>
 					InitialiseModules[i] := InitInterface;
 					InitModuleCount := InitModuleCount + 1;
 				END_IF
+				EXIT;
 			END_IF
 		END_FOR
 		ModuleCount := ModuleCount + 1;
