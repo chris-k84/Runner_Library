@@ -113,7 +113,7 @@ END_VAR
 	Initialised := TRUE;
 	Initialise := S_FALSE;
 ELSE
-	IF InitialisationCount < InitModuleCount THEN
+	IF InitialisationCount < MaxRegisteredModules THEN
 		IF InitialiseModules[InitialisationCount] <> 0 THEN
 			IF InitialiseModules[InitialisationCount].Initialise() = 2 THEN
 				InitialisationCount := InitialisationCount + 1;
