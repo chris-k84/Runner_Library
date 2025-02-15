@@ -50,7 +50,8 @@ Utilising reference libraries you can run them, you can run in UmRT.
 
 ## Tests
 
-
+The library is referenced in the test project, unit testing is done in TwinCAT, which requirs a TC target device.
+User Mode RunTime (UmRT) can support this.
 
 ## Support
 
