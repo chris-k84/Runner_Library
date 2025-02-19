@@ -17,11 +17,28 @@ RejectAddingSameModule_Test();
 RejectInitCallWithNoModules_Test();
 ConfirmInitModulesComplete_Test();
 ConfirmRunnerCanDeregAllModules_Test();
+CheckFailedFuncOnFailingOperation_Test();
 IF ReRun THEN
 	TestSuite.ReRunTests();
 	ReRun := FALSE;
 END_IF]]></ST>
     </Implementation>
+    <Method Name="CheckFailedFuncOnFailingOperation_Test" Id="{feb0d3a8-f0d1-499c-85be-351e715cfe26}">
+      <Declaration><![CDATA[METHOD CheckFailedFuncOnFailingOperation_Test : BOOL
+VAR_INST
+	Expected : BOOL := TRUE;
+	Actual	 : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
+	TestObjRunner.RegisterModule(CyclicModule := TestMockObj1);
+	Actual := FAILED(TestObjRunner.RegisterModule(CyclicModule := TestMockObj1));
+	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
+	TestObjRunner.DeregisterAllModules();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="ConfirmInitModulesComplete_Test" Id="{4d25e156-418e-40fe-a27a-cb6a017bf8b6}">
       <Declaration><![CDATA[METHOD ConfirmInitModulesComplete_Test : BOOL
 VAR_INST
@@ -94,13 +111,12 @@ END_IF]]></ST>
     <Method Name="RejectAddingSameModule_Test" Id="{c962196c-5e81-4f84-9de9-a591b396130d}">
       <Declaration><![CDATA[METHOD RejectAddingSameModule_Test : BOOL
 VAR_INST
-	Expected : HRESULT;
+	Expected : HRESULT := -1;
 	Actual	 : HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
-	Expected := S_False;
 	TestObjRunner.RegisterModule(CyclicModule := TestMockObj1);
 	Actual := TestObjRunner.RegisterModule(CyclicModule := TestMockObj1);
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
@@ -127,13 +143,12 @@ END_IF]]></ST>
     <Method Name="RejectInvalidInterface_Test" Id="{1a121526-1763-4409-b8b9-2573d17baec6}">
       <Declaration><![CDATA[METHOD RejectInvalidInterface_Test : BOOL
 VAR_INST
-	Expected : HRESULT;
+	Expected : HRESULT := -2;
 	Actual	 : HRESULT;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
-	Expected := S_False;
 	Actual := TestObjRunner.RegisterModule(CyclicModule := 16#0);
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 END_IF]]></ST>
