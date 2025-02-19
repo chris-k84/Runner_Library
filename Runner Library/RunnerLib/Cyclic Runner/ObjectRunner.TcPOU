@@ -81,7 +81,7 @@ END_VAR
 		END_IF
 	END_FOR
 ELSE
-	DeregisterModule := S_FALSE;
+	DeregisterModule := -1;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -159,10 +159,10 @@ END_VAR]]></Declaration>
 		ModuleCount := ModuleCount + 1;
 		RegisterModule := S_OK;
 	ELSE
-		RegisterModule := S_FALSE;
+		RegisterModule := -1;
 	END_IF	
 ELSE
-	RegisterModule := S_FALSE;
+	RegisterModule := -2;
 END_IF
 
 
