@@ -35,6 +35,7 @@ The runner calls the cyclic method of all registered modules.
 ## Description
 
 The Runner class is meant to form the background of the PLC program, at a minimum you will require the addComponent and cycle methods. Your module should be registered with the runner once, it will reject registering the same module multiple times. This fits with a machine initialisation operation. Next call the cycle method, all registered modules will be called.
+It is important to call the initialise method at least once as the cyclic method will reject running until the modules are initialised, if empty the initiliase flag will just be set true.
 
 The runner also supports an initialisation, implementing the I_Initialse interface means when the object is registered it is checked for this interface. If its found then you can split the runner calls. Using the initialise to call any initialse method of all registered objects, check all repsond as initialised, before calling the cycle method for the first time.
 
