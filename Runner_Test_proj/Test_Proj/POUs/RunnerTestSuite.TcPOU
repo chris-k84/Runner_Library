@@ -127,14 +127,13 @@ END_IF]]></ST>
     <Method Name="RejectInitCallWithNoModules_Test" Id="{06ac3e74-0018-40e7-bbfd-7c5fde7c73e6}">
       <Declaration><![CDATA[METHOD RejectInitCallWithNoModules_Test : BOOL
 VAR_INST
-	Expected : HRESULT;
-	Actual	 : HRESULT;
+	Expected : BOOL := TRUE;
+	Actual	 : bool;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF TestSuite.Test(__POUNAME()).ExecuteTest() THEN
-	Expected := S_False;
-	Actual := TestObjRunner.Initialise();
+	Actual := FAILED(TestObjRunner.Initialise());
 	TestSuite.Test(__POUNAME()).AssertEqual(Expected, Actual);
 	TestObjRunner.DeregisterAllModules();
 END_IF]]></ST>

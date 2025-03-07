@@ -62,7 +62,7 @@ END_VAR
 END_FOR
 ModuleCount := 0;
 InitModuleCount := 0;
-DeregisterAllModules := S_OK;
+DeregisterAllModules := 1;
 ]]></ST>
       </Implementation>
     </Method>
