@@ -37,11 +37,14 @@ END_VAR
 VAR_INPUT
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 0 TO MaxRegisteredModules DO
-	IF CyclicModules[i] <> 0 THEN
-		CyclicModules[i].Cycle();
-	END_IF
-END_FOR]]></ST>
+        <ST><![CDATA[IF Initialised THEN
+	FOR i := 0 TO MaxRegisteredModules DO
+		IF CyclicModules[i] <> 0 THEN
+			CyclicModules[i].Cycle();
+		END_IF
+	END_FOR
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="DeregisterAllModules" Id="{801399c7-4ed5-4baa-bb84-25ca1ab9b024}">
