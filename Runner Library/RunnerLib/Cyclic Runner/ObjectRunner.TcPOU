@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="ObjectRunner" Id="{4adb75ec-914c-46a2-96a4-b49d6ed1e005}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ObjectRunner EXTENDS CyclicBase IMPLEMENTS I_ObjectRunner
+    <Declaration><![CDATA[FUNCTION_BLOCK ObjectRunner IMPLEMENTS ICyclic, I_ObjectRunner
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
