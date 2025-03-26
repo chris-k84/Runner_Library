@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="ObjectRunner" Id="{4adb75ec-914c-46a2-96a4-b49d6ed1e005}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ObjectRunner IMPLEMENTS ICyclic, I_ObjectRunner
+    <Declaration><![CDATA[FUNCTION_BLOCK ObjectRunner IMPLEMENTS I_Cyclic, I_ObjectRunner
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	CyclicModules : ARRAY[0..MaxRegisteredModules] OF ICyclic;
+	CyclicModules : ARRAY[0..MaxRegisteredModules] OF I_Cyclic;
 	ModuleCount : INT := 0;
 	InitModuleCount : INT := 0;
 	InitialiseModules : ARRAY[0..MaxRegisteredModules] OF I_Initialise;
@@ -63,7 +63,7 @@ DeregisterAllModules := S_OK;
     <Method Name="DeregisterModule" Id="{dfa8fa7b-42f3-4591-8ff7-fdf50b44b36a}">
       <Declaration><![CDATA[METHOD DeregisterModule : HRESULT
 vAR_INPUT
-	CyclicModule : ICyclic;
+	CyclicModule : I_Cyclic;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -132,7 +132,7 @@ END_IF]]></ST>
     <Method Name="RegisterModule" Id="{5f816535-6603-4c30-b42c-afe250745821}">
       <Declaration><![CDATA[METHOD RegisterModule : HRESULT
 VAR_INPUT
-	CyclicModule : ICyclic;
+	CyclicModule : I_Cyclic;
 END_VAR
 VAR
 	InitInterface : I_Initialise;

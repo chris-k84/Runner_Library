@@ -12,7 +12,7 @@ END_VAR
     <Method Name="RegisterModule" Id="{119d0526-b150-47f1-ab98-856e052618fb}">
       <Declaration><![CDATA[METHOD RegisterModule : HRESULT
 VAR_INPUT
-	CyclicModule : ICyclic;
+	CyclicModule : I_Cyclic;
 END_VAR]]></Declaration>
     </Method>
   </Itf>
