@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Object" Id="{cc5f09b5-b4c7-477b-9761-d6fd857f7e64}">
+    <Declaration><![CDATA[INTERFACE I_Object
+]]></Declaration>
+    <Method Name="RegisterWithParent" Id="{a872b065-77ae-4022-8c54-eeadc17c5447}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
+VAR_INPUT
+	Runner : I_HostObjects;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

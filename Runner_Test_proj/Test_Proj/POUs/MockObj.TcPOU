@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="MockObj" Id="{459c9319-db86-4d6a-b774-a97d62f0aee0}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK MockObj IMPLEMENTS I_Cyclic, I_Initialise
+    <Declaration><![CDATA[FUNCTION_BLOCK MockObj IMPLEMENTS I_Cyclic, I_Initialise, I_Object, I_Resettable
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -21,6 +21,24 @@ END_VAR
     </Method>
     <Method Name="Initialise" Id="{b6fb438d-078a-4d9d-ba13-f31f733124cc}">
       <Declaration><![CDATA[METHOD Initialise : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RegisterWithParent" Id="{53309e55-7b39-4961-93ff-498d9c30e110}">
+      <Declaration><![CDATA[METHOD RegisterWithParent
+VAR_INPUT
+	Runner	: I_HostObjects;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Runner.RegisterCyclic(THIS^);
+Runner.RegisterInitialise(THIS^);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Reset" Id="{fdee9a2d-cec1-4e56-8d77-d56933a1dff5}">
+      <Declaration><![CDATA[METHOD Reset : Base_Library.HRESULT
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>

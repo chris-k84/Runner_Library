@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_HostObjects" Id="{6b3f79ad-2a92-40cb-aed5-e9af4ed01870}">
+    <Declaration><![CDATA[INTERFACE I_HostObjects
+]]></Declaration>
+    <Method Name="DeregisterAllModules" Id="{cd468435-7f31-474e-b797-49d6e54c3deb}">
+      <Declaration><![CDATA[METHOD DeregisterAllModules : HRESULT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="RegisterCyclic" Id="{80050db3-80e5-46b3-b147-b75b5f1ab81a}">
+      <Declaration><![CDATA[METHOD RegisterCyclic : HRESULT
+VAR_INPUT
+	Cyclic : I_Cyclic;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="RegisterInitialise" Id="{7d5a17f2-c0ba-4781-8fb0-3013526db5cb}">
+      <Declaration><![CDATA[METHOD RegisterInitialise : HRESULT
+VAR_INPUT
+	Initialise : I_Initialise;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

@@ -40,7 +40,10 @@
     <Folder Include="Cyclic Runner" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cyclic Runner\I_ObjectRunner.TcIO">
+    <Compile Include="Cyclic Runner\I_Object.TcIO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Cyclic Runner\I_HostObjects.TcIO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Cyclic Runner\ObjectRunner.TcPOU">

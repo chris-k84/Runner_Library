@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="ObjectRunner" Id="{4adb75ec-914c-46a2-96a4-b49d6ed1e005}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ObjectRunner IMPLEMENTS I_Cyclic, I_ObjectRunner
+    <Declaration><![CDATA[FUNCTION_BLOCK ObjectRunner IMPLEMENTS I_Cyclic, I_HostObjects
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
 	CyclicModules : ARRAY[0..MaxRegisteredModules] OF I_Cyclic;
-	ModuleCount : INT := 0;
-	InitModuleCount : INT := 0;
 	InitialiseModules : ARRAY[0..MaxRegisteredModules] OF I_Initialise;
+	ResetableModules : ARRAY[0..MaxRegisteredModules] OF I_Resettable;
+	CyclicModuleCount : INT := 0;
+	InitModuleCount : INT := 0;
+	ResetModuleCount : INT := 0;
 	i: INT;
 	InitialisationCount : INT := 0;
 	Registered: BOOL;
@@ -54,35 +56,10 @@ END_VAR
 	CyclicModules[i] := 0;
 	InitialiseModules[i] := 0;
 END_FOR
-ModuleCount := 0;
+CyclicModuleCount := 0;
 InitModuleCount := 0;
 DeregisterAllModules := S_OK;
 ]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="DeregisterModule" Id="{dfa8fa7b-42f3-4591-8ff7-fdf50b44b36a}">
-      <Declaration><![CDATA[METHOD DeregisterModule : HRESULT
-vAR_INPUT
-	CyclicModule : I_Cyclic;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[IF ModuleCount > 0 THEN
-	DeregisterModule := E_FAIL;
-	FOR i := 0 TO ModuleCount DO 
-		IF CyclicModules[i] = CyclicModule THEN
-			CyclicModules[i] := 0;
-			IF InitialiseModules[i] <> 0 THEN
-				InitialiseModules[i] := 0;
-				InitModuleCount := InitModuleCount - 1;
-			END_IF
-			ModuleCount := ModuleCount - 1;
-			DeregisterModule := 2;
-		END_IF
-	END_FOR
-ELSE
-	DeregisterModule := -1;
-END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetCyclicModuleCount" Id="{ce16b2d3-0e8a-4df6-aa9c-1c1b403838ba}">
@@ -91,7 +68,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[GetCyclicModuleCount := ModuleCount;]]></ST>
+        <ST><![CDATA[GetCyclicModuleCount := CyclicModuleCount;]]></ST>
       </Implementation>
     </Method>
     <Method Name="GetInitModuleCount" Id="{a9fb930d-907c-4894-834e-3a7f560764dd}">
@@ -129,46 +106,117 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="RegisterModule" Id="{5f816535-6603-4c30-b42c-afe250745821}">
-      <Declaration><![CDATA[METHOD RegisterModule : HRESULT
+    <Method Name="RegisterCyclic" Id="{6bccdbde-9c92-4620-9761-b9e0f084b43d}">
+      <Declaration><![CDATA[METHOD RegisterCyclic : HRESULT
 VAR_INPUT
-	CyclicModule : I_Cyclic;
-END_VAR
-VAR
-	InitInterface : I_Initialise;
+	Cyclic : I_Cyclic;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF CyclicModule <> 0 AND_THEN ModuleCount < (MaxRegisteredModules + 1) THEN
+        <ST><![CDATA[IF Cyclic <> 0 AND_THEN CyclicModuleCount < (MaxRegisteredModules + 1) THEN
 	Registered := FALSE;
 	FOR i := 0 TO MaxRegisteredModules DO
-		IF CyclicModules[i] = CyclicModule THEN
+		IF CyclicModules[i] = Cyclic THEN
 			Registered := TRUE;
 		END_IF
 	END_FOR
 	IF NOT Registered THEN	
 		FOR i := 0 TO MaxRegisteredModules DO
 			IF CyclicModules[i] = 0 THEN
-				CyclicModules[i] := CyclicModule;
-				IF __QUERYINTERFACE(CyclicModule,InitInterface) THEN
-					InitialiseModules[i] := InitInterface;
-					InitModuleCount := InitModuleCount + 1;
-				END_IF
+				CyclicModules[i] := Cyclic;
+				CyclicModuleCount := CyclicModuleCount + 1;
 				EXIT;
 			END_IF
 		END_FOR
-		ModuleCount := ModuleCount + 1;
-		RegisterModule := S_OK;
+		RegisterCyclic := 1;
 	ELSE
-		RegisterModule := -1;
+		RegisterCyclic := -1;
 	END_IF	
 ELSE
-	RegisterModule := -2;
+	RegisterCyclic := -2;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RegisterInitialise" Id="{3f91b9ee-7025-425f-bcc4-5c1a390dcc0a}">
+      <Declaration><![CDATA[METHOD RegisterInitialise : hresult
+VAR_INPUT
+	Initialise : I_Initialise;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Initialise <> 0 AND_THEN CyclicModuleCount < (MaxRegisteredModules + 1) THEN
+	Registered := FALSE;
+	FOR i := 0 TO MaxRegisteredModules DO
+		IF InitialiseModules[i] = Initialise THEN
+			Registered := TRUE;
+		END_IF
+	END_FOR
+	IF NOT Registered THEN	
+		FOR i := 0 TO MaxRegisteredModules DO
+			IF InitialiseModules[i] = 0 THEN
+				InitialiseModules[i] := Initialise;
+				InitModuleCount := InitModuleCount + 1;
+			END_IF
+			EXIT;
+		END_FOR
+		RegisterInitialise := 1;
+	ELSE
+		RegisterInitialise := -1;
+	END_IF	
+ELSE
+	RegisterInitialise := -2;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RegisterModule" Id="{5f816535-6603-4c30-b42c-afe250745821}">
+      <Declaration><![CDATA[METHOD RegisterModule : HRESULT
+VAR_INPUT
+	Registerable : I_Object;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Registerable <> 0 THEN
+	Registerable.RegisterWithParent(THIS^);
+	RegisterModule := 1;
+ELSE
+	RegisterModule := -1;
 END_IF
 
 
 
 
+
 	]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RegisterResettable" Id="{52101959-06bd-45e3-88da-97492c3d9759}">
+      <Declaration><![CDATA[METHOD RegisterResettable : HRESULT
+VAR_INPUT
+	Resetable : I_Resettable;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF Resetable <> 0 AND_THEN ResetModuleCount < (MaxRegisteredModules + 1) THEN
+	Registered := FALSE;
+	FOR i := 0 TO MaxRegisteredModules DO
+		IF ResetableModules[i] = Resetable THEN
+			Registered := TRUE;
+		END_IF
+	END_FOR
+	IF NOT Registered THEN	
+		FOR i := 0 TO MaxRegisteredModules DO
+			IF ResetableModules[i] = 0 THEN
+				ResetableModules[i] := Resetable;
+				ResetModuleCount := ResetModuleCount + 1;
+				EXIT;
+			END_IF
+		END_FOR
+		RegisterResettable := 1;
+	ELSE
+		RegisterResettable := -1;
+	END_IF	
+ELSE
+	RegisterResettable := -2;
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>
