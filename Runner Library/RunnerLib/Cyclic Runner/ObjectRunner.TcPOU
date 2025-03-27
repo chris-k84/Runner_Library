@@ -25,7 +25,9 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="AreAllModuleInitialised" Id="{4d383a02-46c6-4353-8362-547fa2f80ae1}">
+    <Folder Name="Register" Id="{c7ff2bee-e5c1-4c43-a9c6-2b394f2cac57}" />
+    <Folder Name="Status" Id="{a62bb36a-03ff-4c06-8f63-8f5c3147fde2}" />
+    <Method Name="AreAllModuleInitialised" Id="{4d383a02-46c6-4353-8362-547fa2f80ae1}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD AreAllModuleInitialised : BOOL
 VAR_INPUT
 END_VAR
@@ -46,7 +48,7 @@ END_VAR]]></Declaration>
 END_FOR]]></ST>
       </Implementation>
     </Method>
-    <Method Name="DeregisterAllModules" Id="{801399c7-4ed5-4baa-bb84-25ca1ab9b024}">
+    <Method Name="DeregisterAllModules" Id="{801399c7-4ed5-4baa-bb84-25ca1ab9b024}" FolderPath="Register\">
       <Declaration><![CDATA[METHOD DeregisterAllModules : HRESULT
 VAR_INPUT
 END_VAR
@@ -55,14 +57,16 @@ END_VAR
         <ST><![CDATA[FOR i := 0 TO MaxRegisteredModules DO
 	CyclicModules[i] := 0;
 	InitialiseModules[i] := 0;
+	ResetableModules[i] := 0;
 END_FOR
 CyclicModuleCount := 0;
 InitModuleCount := 0;
+ResetModuleCount := 0;
 DeregisterAllModules := S_OK;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetCyclicModuleCount" Id="{ce16b2d3-0e8a-4df6-aa9c-1c1b403838ba}">
+    <Method Name="GetCyclicModuleCount" Id="{ce16b2d3-0e8a-4df6-aa9c-1c1b403838ba}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD GetCyclicModuleCount : INT
 VAR_INPUT
 END_VAR
@@ -71,13 +75,22 @@ END_VAR
         <ST><![CDATA[GetCyclicModuleCount := CyclicModuleCount;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetInitModuleCount" Id="{a9fb930d-907c-4894-834e-3a7f560764dd}">
+    <Method Name="GetInitModuleCount" Id="{a9fb930d-907c-4894-834e-3a7f560764dd}" FolderPath="Status\">
       <Declaration><![CDATA[METHOD GetInitModuleCount : INT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[GetInitModuleCount := InitModuleCount;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetResetableModuleCount" Id="{c2216e56-0e04-469c-b757-6c0f012da51c}" FolderPath="Status\">
+      <Declaration><![CDATA[METHOD GetResetableModuleCount : INT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetResetableModuleCount := ResetModuleCount;]]></ST>
       </Implementation>
     </Method>
     <Method Name="Initialise" Id="{498dbf2f-31fd-468f-af2a-ef254d08806c}">
@@ -106,7 +119,7 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="RegisterCyclic" Id="{6bccdbde-9c92-4620-9761-b9e0f084b43d}">
+    <Method Name="RegisterCyclic" Id="{6bccdbde-9c92-4620-9761-b9e0f084b43d}" FolderPath="Register\">
       <Declaration><![CDATA[METHOD RegisterCyclic : HRESULT
 VAR_INPUT
 	Cyclic : I_Cyclic;
@@ -137,7 +150,7 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="RegisterInitialise" Id="{3f91b9ee-7025-425f-bcc4-5c1a390dcc0a}">
+    <Method Name="RegisterInitialise" Id="{3f91b9ee-7025-425f-bcc4-5c1a390dcc0a}" FolderPath="Register\">
       <Declaration><![CDATA[METHOD RegisterInitialise : hresult
 VAR_INPUT
 	Initialise : I_Initialise;
@@ -169,7 +182,7 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="RegisterModule" Id="{5f816535-6603-4c30-b42c-afe250745821}">
+    <Method Name="RegisterModule" Id="{5f816535-6603-4c30-b42c-afe250745821}" FolderPath="Register\">
       <Declaration><![CDATA[METHOD RegisterModule : HRESULT
 VAR_INPUT
 	Registerable : I_Object;
@@ -189,7 +202,7 @@ END_IF
 	]]></ST>
       </Implementation>
     </Method>
-    <Method Name="RegisterResettable" Id="{52101959-06bd-45e3-88da-97492c3d9759}">
+    <Method Name="RegisterResettable" Id="{52101959-06bd-45e3-88da-97492c3d9759}" FolderPath="Register\">
       <Declaration><![CDATA[METHOD RegisterResettable : HRESULT
 VAR_INPUT
 	Resetable : I_Resettable;

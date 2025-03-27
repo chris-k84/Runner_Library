@@ -2,11 +2,8 @@
 <TcPlcObject Version="1.1.0.1">
   <POU Name="MockObj" Id="{459c9319-db86-4d6a-b774-a97d62f0aee0}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK MockObj IMPLEMENTS I_Cyclic, I_Initialise, I_Object, I_Resettable
-VAR_INPUT
-END_VAR
-VAR_OUTPUT
-END_VAR
 VAR
+	_isRegistered : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -26,6 +23,15 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
+    <Method Name="IsRegistered" Id="{432ff809-df19-4dfc-b853-62c50ce79958}">
+      <Declaration><![CDATA[METHOD IsRegistered : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsRegistered := _isRegistered;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="RegisterWithParent" Id="{53309e55-7b39-4961-93ff-498d9c30e110}">
       <Declaration><![CDATA[METHOD RegisterWithParent
 VAR_INPUT
@@ -33,8 +39,15 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Runner.RegisterCyclic(THIS^);
-Runner.RegisterInitialise(THIS^);]]></ST>
+        <ST><![CDATA[IF NOT _isRegistered THEN
+	IF SUCCEEDED( Runner.RegisterCyclic(THIS^)) AND SUCCEEDED(Runner.RegisterInitialise(THIS^)) THEN
+		_isRegistered := TRUE;
+	ELSE
+		_isRegistered := FALSE;
+	END_IF
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Reset" Id="{fdee9a2d-cec1-4e56-8d77-d56933a1dff5}">
