@@ -23,5 +23,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="RegisterResettable" Id="{04daf7da-6efd-45f8-8b64-3bc15c24a64f}">
+      <Declaration><![CDATA[METHOD RegisterResettable : HRESULT
+VAR_INPUT
+	Resetable : I_Resettable;
+END_VAR
+]]></Declaration>
+    </Method>
   </Itf>
 </TcPlcObject>
