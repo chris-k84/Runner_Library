@@ -9,6 +9,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
     </Method>
+    <Method Name="RegisterAbortable" Id="{be1b7b70-9d09-49cb-90c6-a693376757b0}">
+      <Declaration><![CDATA[METHOD RegisterAbortable : HRESULT
+VAR_INPUT
+	Abortable : I_Abortable;
+END_VAR
+]]></Declaration>
+    </Method>
     <Method Name="RegisterCyclic" Id="{80050db3-80e5-46b3-b147-b75b5f1ab81a}">
       <Declaration><![CDATA[METHOD RegisterCyclic : HRESULT
 VAR_INPUT
