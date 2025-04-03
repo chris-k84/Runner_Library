@@ -8,7 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	CyclicModules : ARRAY[0..MaxRegisteredModules] OF I_Cyclic;
-	InitialiseModules : ARRAY[0..MaxRegisteredModules] OF I_Initialise;
+	InitialiseModules : ARRAY[0..MaxRegisteredModules] OF I_Initialisable;
 	ResetableModules : ARRAY[0..MaxRegisteredModules] OF I_Resettable;
 	AbortableModules : ARRAY[0..MaxRegisteredModules] OF I_Abortable;
 	CyclicModuleCount : INT := 0;
@@ -186,7 +186,7 @@ END_IF
     <Method Name="RegisterInitialise" Id="{3f91b9ee-7025-425f-bcc4-5c1a390dcc0a}" FolderPath="Register\">
       <Declaration><![CDATA[METHOD RegisterInitialise : hresult
 VAR_INPUT
-	Initialise : I_Initialise;
+	Initialise : I_Initialisable;
 END_VAR
 ]]></Declaration>
       <Implementation>

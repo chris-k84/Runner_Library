@@ -26,7 +26,7 @@ END_VAR
     <Method Name="RegisterInitialise" Id="{7d5a17f2-c0ba-4781-8fb0-3013526db5cb}">
       <Declaration><![CDATA[METHOD RegisterInitialise : HRESULT
 VAR_INPUT
-	Initialise : I_Initialise;
+	Initialise : I_Initialisable;
 END_VAR
 ]]></Declaration>
     </Method>
